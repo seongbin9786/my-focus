@@ -1,11 +1,4 @@
 /** @type {import('tailwindcss').Config} */
-
-const pxToRem = (px, base = 16) => `${px / base}rem`;
-
-const range = (start, end) => {
-  return Array.from({ length: end - start + 1 }, (_, index) => index + start);
-};
-
 export default {
   darkMode: ["class"],
   content: ["./src/**/*.{ts,tsx}"],

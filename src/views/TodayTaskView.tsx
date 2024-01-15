@@ -3,6 +3,7 @@ import {
   ArrowBigRightDashIcon,
   CheckIcon,
   LightbulbIcon,
+  PauseIcon,
   XIcon,
 } from "lucide-react";
 
@@ -33,10 +34,17 @@ const DUMMY_DATA = [
       },
       {
         id: 3,
-        name: "ㅎㅇㅎㅇ",
+        name: "작업을 수정하는 UI를 기획, 퍼블리싱",
         estimated: "1h",
         actual: "-",
         status: "todo",
+      },
+      {
+        id: 4,
+        name: "일시 중단된 작업 예시 (하루 지나면 종료됨)",
+        estimated: "1h",
+        actual: "-",
+        status: "suspended",
       },
     ],
   },
@@ -68,12 +76,14 @@ const bgColorByStatus = {
   done: "bg-green-800/70 hover:bg-green-800/90 cursor-pointer",
   wip: "bg-sky-800/70 hover:bg-sky-800/90 cursor-pointer",
   todo: "bg-red-800/70 hover:bg-red-800/90 cursor-pointer",
+  suspended: "bg-orange-800/70 hover:bg-orange-800/90 cursor-pointer",
 };
 
 const iconByStatus = {
   done: <CheckIcon className="h-4 w-4" />,
   wip: <ArrowBigRightDashIcon className="h-4 w-4" />,
   todo: <AlertTriangleIcon className="h-4 w-4" />,
+  suspended: <PauseIcon className="h-4 w-4" />,
 };
 
 export const TodayTaskView = () => {

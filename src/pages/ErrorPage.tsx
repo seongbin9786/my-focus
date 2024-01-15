@@ -16,10 +16,10 @@ export const ErrorPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-screen h-screen">
+    <div className="flex h-screen w-screen flex-col items-center justify-center">
       <div className="max-w-[500px]">
         <Alert>
-          <Terminal className="w-4 h-4" />
+          <Terminal className="h-4 w-4" />
           <AlertTitle>my-focus</AlertTitle>
           <AlertDescription className="flex flex-col gap-2">
             죄송합니다. 오류가 발생했습니다
