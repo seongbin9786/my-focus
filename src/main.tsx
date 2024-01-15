@@ -14,12 +14,15 @@ import {
 import App from "./App";
 import { ErrorPage } from "./pages/ErrorPage";
 
-const usingSystemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-if (localStorage.theme === "dark" || (!localStorage.theme && usingSystemDark)) {
-  document.documentElement.classList.add("dark");
-} else {
-  document.documentElement.classList.remove("dark");
-}
+// 당장은 항상 다크모드로 사용
+document.documentElement.classList.add("dark");
+
+// const usingSystemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+// if (localStorage.theme === "dark" || (!localStorage.theme && usingSystemDark)) {
+//   document.documentElement.classList.add("dark");
+// } else {
+//   document.documentElement.classList.remove("dark");
+// }
 
 Sentry.init({
   dsn: import.meta.env.VITE_SENTRY_DSN,

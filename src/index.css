@@ -25,21 +25,21 @@
     --ring: 240 5% 64.9%;
     --radius: 0.5rem;
 
-    --layer1: 0 0% 94%;
-    --layer2: 0 0% 92%;
-    --layer3: 0 0% 88%;
-    --layer4: 0 0% 84%;
-    --layer5: 0 0% 80%;
-    --layer6: 0 0% 76%;
-    --layer7: 0 0% 72%;
+    --layer1: 0 0% 98%;
+    --layer2: 0 0% 96%;
+    --layer3: 0 0% 82%;
+    --layer4: 0 0% 88%;
+    --layer5: 0 0% 84%;
+    --layer6: 0 0% 80%;
+    --layer7: 0 0% 76%;
 
-    --content1: 0 0% 50%;
-    --content2: 0 0% 42%;
-    --content3: 0 0% 34%;
-    --content4: 0 0% 26%;
-    --content5: 0 0% 18%;
-    --content6: 0 0% 10%;
-    --content7: 0 0% 2%;
+    --content1: 0 0% 54%;
+    --content2: 0 0% 46%;
+    --content3: 0 0% 38%;
+    --content4: 0 0% 30%;
+    --content5: 0 0% 22%;
+    --content6: 0 0% 14%;
+    --content7: 0 0% 6%;
   }
 
   :root.dark {
@@ -110,7 +110,7 @@
   }
 
   .step:before {
-    @apply absolute inline-flex h-9 w-9 items-center justify-center rounded-full border-4 border-background bg-muted text-center -indent-px font-mono text-base font-medium;
+    @apply absolute inline-flex items-center justify-center font-mono text-base font-medium text-center border-4 rounded-full h-9 w-9 border-background bg-muted -indent-px;
     @apply ml-[-50px] mt-[-4px];
     content: counter(step);
   }

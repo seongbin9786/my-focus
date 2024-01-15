@@ -19,12 +19,6 @@ export default {
       },
     },
     extend: {
-      spacing: {
-        ...range(1, 1400).reduce((accumulate, px) => {
-          accumulate[`${px}pxr`] = pxToRem(px);
-          return accumulate;
-        }, {}),
-      },
       colors: {
         "layer-1": "hsl(var(--layer1))",
         "layer-2": "hsl(var(--layer2))",
