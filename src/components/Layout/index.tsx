@@ -30,7 +30,8 @@ export const Layout = () => {
           className="h-6 grow border-transparent text-sm text-content-2 hover:border-layer-6"
           defaultValue="D-30 이사 가는 날"
         />
-        <span className="shrink-0">
+        {/* 모바일에선 주소 표시줄 때문에 밑에 가려져 있어서 안 보이고, 좁아서 Memo와 copyright만 보임 */}
+        <span className="hidden shrink-0 xl:block">
           Copyright 2024 @{" "}
           <a className="text-blue-500 underline" href="https://github.com/seongbin9786">
             Seongbin Kim
