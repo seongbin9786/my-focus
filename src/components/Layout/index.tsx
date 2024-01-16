@@ -22,7 +22,7 @@ export const Layout = () => {
           <NavigationTab />
         </div>
       </div>
-      <div className="w-full max-w-[1280px] grow self-center overflow-auto bg-layer-2">
+      <div className="max-h-[calc(100%-80px) w-full max-w-[1280px] grow self-center overflow-auto">
         <Outlet />
       </div>
       {/* 모바일에선 주소 표시줄 때문에 밑에 가려져 있어서 안 보이고, 좁아서 Memo와 copyright만 보임 */}
