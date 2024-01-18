@@ -15,7 +15,7 @@ export default {
       screens: {
         // @see https://tailwindcss.com/docs/screens#custom-media-queries
         // 높이가 작은 스크린은 기존 grid 사용 불가능
-        smh: { raw: "(max-height: 700px)" },
+        smh: { raw: "(max-height: 600px)" },
       },
       colors: {
         "layer-1": "hsl(var(--layer1))",
