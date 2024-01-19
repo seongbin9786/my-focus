@@ -81,7 +81,7 @@ export const NavigationTab = () => {
           </NavigationMenuContent>
         </NavigationMenuItem> */}
         {LINKS.map(({ name, url }) => (
-          <NavigationMenuItem>
+          <NavigationMenuItem key={name}>
             <Link to={url}>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 {name}
@@ -109,7 +109,7 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, React.ComponentPropsWit
             {...props}
           >
             <div className="text-sm font-medium leading-none">{title}</div>
-            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">{children}</p>
+            <p className="text-sm leading-snug line-clamp-2 text-muted-foreground">{children}</p>
           </Link>
         </NavigationMenuLink>
       </li>

@@ -28,6 +28,7 @@ const formSchema = z.object({
     message: "name must be at least 2 characters.",
   }),
   projectName: z.string(),
+  milestoneName: z.string(),
   totalTime: z.number(),
   date: z
     .object({
@@ -44,13 +45,14 @@ function onSubmit(values: z.infer<typeof formSchema>) {
   console.log(values);
 }
 
-export const CreateMilestoneForm = () => {
+export const CreateIssueForm = () => {
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       projectName: "",
+      milestoneName: "",
       totalTime: 0,
     },
   });
@@ -66,9 +68,9 @@ export const CreateMilestoneForm = () => {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>마일스톤 이름</FormLabel>
+              <FormLabel>이슈 이름</FormLabel>
               <FormControl>
-                <Input placeholder="초기 화면 퍼블리싱" {...field} />
+                <Input placeholder="신규 이터레이션 생성 페이지 퍼블리싱" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -119,6 +121,32 @@ export const CreateMilestoneForm = () => {
             </FormItem>
           )}
         />
+
+        <FormField
+          control={form.control}
+          name="milestoneName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>마일스톤명</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="마일스톤을 선택해주세요" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>데브코스 2차팀 FE 프로젝트</SelectLabel>
+                    <SelectItem value="v1 이터레이션">v1 이터레이션</SelectItem>
+                    <SelectItem value="v2 이터레이션">v2 이터레이션</SelectItem>
+                    <SelectItem value="v3 이터레이션">v3 이터레이션</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="totalTime"
@@ -133,7 +161,7 @@ export const CreateMilestoneForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">마일스톤 생성</Button>
+        <Button type="submit">이슈 생성</Button>
       </form>
     </Form>
   );
