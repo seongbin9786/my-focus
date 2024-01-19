@@ -5,7 +5,7 @@ export const CurrentTaskView = ({ doing }: { doing: boolean }) => {
     return (
       <>
         <div className="flex items-center justify-between">
-          <h2 className="font-bold text-content-5 md:text-lg">현재 작업 (유휴 시간 3h 24m 11s)</h2>
+          <h2 className="text-view-title">현재 작업 (유휴 시간 3h 24m 11s)</h2>
           <div className="flex gap-2">
             <Button className="h-7 border-0 bg-yellow-500 font-semibold text-black/60 hover:bg-yellow-600">
               신규 작업 시작
@@ -25,7 +25,7 @@ export const CurrentTaskView = ({ doing }: { doing: boolean }) => {
         <div className="h-[2px] w-[50%] bg-green-900/50"></div>
       </div>
       <div className="flex flex-col items-center justify-between gap-2 sm:flex-row sm:gap-0">
-        <h2 className="font-bold text-content-5 md:text-lg">현재 작업 (예상 1h / 소요 30m 24s)</h2>
+        <h2 className="text-view-title">현재 작업 (예상 1h / 소요 30m 24s)</h2>
         <div className="flex gap-2 ">
           {/* TODO: 라이트 모드 컬러 추가하기. 현재는 다크 모드 기준 색상임 */}
           <Button className="h-7 bg-red-700 text-content-7 hover:bg-red-600">전환</Button>

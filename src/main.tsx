@@ -1,8 +1,7 @@
+import "./index.css";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
 import { QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import * as Sentry from "@sentry/react";
 import {
   createRoutesFromChildren,
@@ -14,6 +13,7 @@ import {
 import App from "./App";
 import { ErrorPage } from "./pages/ErrorPage";
 
+// FIXME: 리프레시할 때 아주 잠시 light bg가 보임. 딱 bg만. 이유는 모르겠음.
 // 당장은 항상 다크모드로 사용
 document.documentElement.classList.add("dark");
 
@@ -63,7 +63,7 @@ const queryClient = new QueryClient({
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Sentry.ErrorBoundary fallback={<ErrorPage />}>
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       <App />
     </QueryClientProvider>
   </Sentry.ErrorBoundary>,

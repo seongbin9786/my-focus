@@ -68,7 +68,7 @@ const Item = ({
   </div>
 );
 
-export const HomePage = () => {
+export const FocusPage = () => {
   return (
     <>
       {/* max-h-full 로 해놓으면 header, footer 등 배치 빼고 배치 받은 본인 크기에서 더 커지지 않겠다는 뜻 */}
@@ -82,7 +82,7 @@ export const HomePage = () => {
         </div>
         <div className="row-span-12 flex max-h-full flex-col gap-4 bg-layer-2 p-3 md:p-4 xl:col-start-2 xl:row-start-1 xl:rounded-lg smh:hidden">
           <div className="flex items-center justify-between">
-            <h2 className="font-bold text-content-5 md:text-lg">작업 내역 (오늘, 2024-01-16)</h2>
+            <h2 className="text-view-title">작업 내역 (오늘, 2024-01-16)</h2>
             {/* 새로 배운 점: 그냥 button으로 감싸도 된다! 사실 select-none + cursor-pointer = 버튼 */}
             <button>
               <RotateCwIcon className="h-5 w-5 text-content-1" />
@@ -92,7 +92,7 @@ export const HomePage = () => {
           <div className="flex max-h-[calc(100%-60px)] flex-col pr-2 xl:overflow-auto">
             {/* FIXME: 이유는 모르겠지만 z-index를 주지 않으면 opacity=1 이어도 뒤에가 보임. */}
             {/* 아예 layer가 밑으로 오면 모를까 opacity 이슈처럼 보여서 이상함. 이유를 모르겠음. */}
-            <div className="sticky top-0 z-10 bg-zinc-800 px-8 py-2 text-content-6">
+            <div className="sticky top-0 z-[1] bg-zinc-800 px-8 py-2 text-content-6">
               오늘 (1/16, 수)
             </div>
             <Item />

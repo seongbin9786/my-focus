@@ -11,8 +11,8 @@ export default defineConfig({
       include: "**/*.svg",
     }),
     sentryVitePlugin({
-      org: "jojaehun",
-      project: "javascript-react",
+      org: "",
+      project: "",
       telemetry: false,
     }),
   ],

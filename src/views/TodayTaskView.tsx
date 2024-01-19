@@ -1,5 +1,4 @@
 import { CheckSquareIcon, PauseIcon, SquareIcon, SquareSlashIcon } from "lucide-react";
-import { useEffect, useReducer } from "react";
 
 import { Badge } from "@/components/ui/badge";
 
@@ -80,52 +79,12 @@ const iconByStatus = {
   suspended: <PauseIcon className="h-4 w-4" />,
 };
 
-const getProgressActiveCSS = (percentage: number) => {
-  if (percentage >= 75) return "bg-green-500";
-  if (percentage >= 50) return "bg-blue-500";
-  if (percentage >= 25) return "bg-yellow-500";
-  return "bg-red-500";
-};
-
-const getProgressBgCSS = (percentage: number) => {
-  if (percentage >= 75) return "bg-green-900/50";
-  if (percentage >= 50) return "bg-blue-900/50";
-  if (percentage >= 25) return "bg-yellow-900/50";
-  return "bg-red-900/50";
-};
-
 export const TodayTaskView = () => {
-  const [, forceUpdate] = useReducer((state) => !state, false);
-  const percentage = (() => {
-    try {
-      return Number(window.document.title.split(" ")[1].slice(0, -1));
-    } catch {
-      return 0;
-    }
-  })();
-
-  useEffect(() => {
-    const interval = setInterval(() => forceUpdate(), 1000);
-
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <>
-      {/* 오늘의 작업은 상단에 표시됨 */}
-      <div className="fixed left-0 top-0 flex w-full px-[1px]">
-        <div
-          style={{ width: `${percentage}%` }}
-          className={cn("h-[2px] rounded-sm", getProgressActiveCSS(percentage))}
-        ></div>
-        <div
-          style={{ width: `${100 - percentage}%` }}
-          className={cn("h-[2px]", getProgressBgCSS(percentage))}
-        ></div>
-      </div>
       <div className="flex flex-col gap-2">
         <h2 className="flex items-center justify-between">
-          <span className="font-bold text-content-5 md:text-lg">오늘의 작업 - 잔여 4h</span>
+          <span className="text-view-title">오늘의 작업 - 잔여 4h</span>
           <span className="text-xs text-content-2 md:text-sm">(완료됨: 예측 9h / 소요 8h)</span>
         </h2>
       </div>

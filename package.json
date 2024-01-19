@@ -54,6 +54,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
+    "d3": "^7.8.5",
     "date-fns": "^3.0.6",
     "lucide-react": "^0.302.0",
     "react": "^18.2.0",
@@ -70,6 +71,7 @@
   "devDependencies": {
     "@commitlint/cli": "^18.4.3",
     "@commitlint/config-conventional": "^18.4.3",
+    "@types/d3": "^7.4.3",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@typescript-eslint/eslint-plugin": "^6.16.0",
