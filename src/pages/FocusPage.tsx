@@ -77,10 +77,10 @@ export const FocusPage = () => {
         <div className="relative col-span-1 col-start-1 row-span-3 flex flex-col gap-2 bg-layer-2 p-3 md:p-4 xl:rounded-lg smh:row-span-12">
           <CurrentTaskView doing={true} />
         </div>
-        <div className="row-span-9 box-border flex flex-col gap-4 bg-layer-2 p-3 md:p-4 xl:col-start-1 xl:rounded-lg smh:col-start-2 smh:row-span-12">
+        <div className="row-span-9 box-border flex flex-col gap-4 bg-layer-2 p-3 md:p-4 xl:col-start-1 xl:rounded-lg smh:row-span-12">
           <TodayTaskView />
         </div>
-        <div className="row-span-12 flex max-h-full flex-col gap-4 bg-layer-2 p-3 md:p-4 xl:col-start-2 xl:row-start-1 xl:rounded-lg smh:hidden">
+        <div className="row-span-12 flex max-h-full flex-col gap-4 bg-layer-2 p-3 md:p-4 xl:col-start-2 xl:row-start-1 xl:rounded-lg">
           <div className="flex items-center justify-between">
             <h2 className="text-view-title">작업 내역 (오늘, 2024-01-16)</h2>
             {/* 새로 배운 점: 그냥 button으로 감싸도 된다! 사실 select-none + cursor-pointer = 버튼 */}

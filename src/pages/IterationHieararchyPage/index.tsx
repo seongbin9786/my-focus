@@ -21,8 +21,37 @@ const ROOT_RADIUS = 40;
 const getRadiusOfNode = (parentRadius: number, d: d3.HierarchyNode<unknown>) => {
   const myArea = (Math.PI * Math.pow(parentRadius, 2) * d.data.priorityRatio) / 100;
   const myRadius = Math.sqrt(myArea / Math.PI);
-  console.log("my area = ", myArea, "my radius = ", myRadius);
+  // console.log("my area = ", myArea, "my radius = ", myRadius);
   return Math.round(myRadius);
+};
+
+const getColorForStatusText = (d: d3.HierarchyNode<unknown>) => {
+  const { priorityRatio, executedTotalTime, scheduledTotalTime } = d.data;
+  const accomplishedRatio = Math.round((executedTotalTime / scheduledTotalTime) * 100);
+
+  // 이렇게 하면 급한 작업들이 눈에 보이게 됨
+  if (accomplishedRatio >= 75) {
+    return "#666";
+  }
+  if (accomplishedRatio >= 50) {
+    return "#aaa";
+  }
+  if (accomplishedRatio >= 30) {
+    return "#ccc";
+  }
+  return "#eee";
+
+  // 이렇게 반환하면 완료된 게 제일 빛나게 됨. 근데 완료된 건 집중할 필요가 없음!!
+  // if (accomplishedRatio >= 75) {
+  //   return "#eee";
+  // }
+  // if (accomplishedRatio >= 50) {
+  //   return "#ccc";
+  // }
+  // if (accomplishedRatio >= 30) {
+  //   return "#aaa";
+  // }
+  // return "#666";
 };
 
 // Copyright 2021-2023 Observable, Inc.
@@ -42,7 +71,7 @@ function drawTreeIntoSvg(
     title, // given a node d, returns its hover text
     link, // given a node d, its link (if any)
     linkTarget = "_blank", // the target attribute for links (if any)
-    width = 640, // outer width, in pixels
+    width = 1200, // outer width, in pixels
     height, // outer height, in pixels
     padding = 2, // horizontal padding for first and last column
     // padding은 px를 의미함. 폰트 키우면 px 키워줘야 안 잘림
@@ -77,10 +106,8 @@ function drawTreeIntoSvg(
 
   // Compute labels and titles.
   const descendants = root.descendants();
-  console.log("descendants:", descendants);
   const nodeNames = label == null ? null : descendants.map((d) => label(d.data, d));
   const nodePriorityRatio = descendants.map((d) => d.data.priorityRatio);
-  console.log("progress:", nodePriorityRatio);
 
   // Compute the layout.
   const dx = 25; // FIXME: 이유는 모르겠지만 이걸 키우면 node 간 margin이 커짐 (왜 dx냐?)
@@ -104,9 +131,12 @@ function drawTreeIntoSvg(
 
   const svg = d3
     .create("svg")
-    .attr("viewBox", [(-dy * padding) / 2, x0 - dx, width, height])
-    .attr("width", width)
-    .attr("height", height)
+    .attr("viewBox", [-100, -500, 1200, 1000])
+    .attr("width", 1200)
+    .attr("height", 1000)
+    // .attr("viewBox", [-150, -500, width, height])
+    // .attr("width", width)
+    // .attr("height", height)
     .attr("style", "max-width: 100%; height: auto; height: intrinsic; color: #fff;")
     .attr("font-family", "sans-serif")
     .attr("fill", "#fff")
@@ -123,48 +153,23 @@ function drawTreeIntoSvg(
     .attr("stroke", ({ target: d }) => {
       // 노드의 edge 색상을 결정
       // target = child = 본인 노드
-      const { priorityRatio } = d.data;
+      const { scheduledTotalTime, executedTotalTime } = d.data;
 
-      if (d.depth === 1) {
-        if (priorityRatio >= 25) {
-          return "#4ade80"; // green 400
-        }
-        if (priorityRatio >= 20) {
-          return "#22c55e"; // green 500
-        }
-        if (priorityRatio >= 15) {
-          return "#16a34a"; // green 600
-        }
-        if (priorityRatio >= 10) {
-          return "#15803d"; // green 700
-        }
-        return "#166534"; // green 800
+      if (scheduledTotalTime === 0) {
+        return "#64748b"; // slate
       }
 
-      const combinedRatio = Math.round((priorityRatio * d.parent?.data.priorityRatio) / 100);
+      if (executedTotalTime === 0) {
+        return "#ef4444"; // r
+      }
 
-      if (combinedRatio >= 20) {
-        return "#bbf7d0"; // green 200
-      }
-      if (combinedRatio >= 15) {
-        return "#86efac"; // green 300
-      }
-      if (combinedRatio >= 10) {
-        return "#4ade80"; // green 400
-      }
-      if (combinedRatio >= 8) {
-        return "#22c55e"; // green 500
-      }
-      if (combinedRatio >= 6) {
-        return "#16a34a"; // green 600
-      }
-      if (combinedRatio >= 4) {
-        return "#15803d"; // green 700
-      }
-      if (combinedRatio >= 2) {
-        return "#166534"; // green 800
-      }
-      return "#14532d"; // green 900
+      const accomplishedRatio = executedTotalTime / scheduledTotalTime;
+      console.log("accomplishedRatio:", d.data.name, accomplishedRatio);
+
+      if (accomplishedRatio >= 0.75) return "#22c55e"; // g
+      if (accomplishedRatio >= 0.5) return "#3b82f6"; // b
+      if (accomplishedRatio >= 0.25) return "#eab308"; // y
+      return "#ef4444"; // r
     })
     .attr("stroke-opacity", strokeOpacity)
     .attr("stroke-linecap", strokeLinecap)
@@ -194,54 +199,25 @@ function drawTreeIntoSvg(
   node
     .append("circle")
     .attr("fill", (d) => {
-      // 노드 원의 색상 결정
-      const { priorityRatio } = d.data;
+      // 노드의 edge 색상을 결정
+      // target = child = 본인 노드
+      const { scheduledTotalTime, executedTotalTime } = d.data;
 
-      if (d.depth === 0) {
-        return "#86efac"; // green 300
-      }
-
-      if (d.depth === 1) {
-        if (priorityRatio >= 25) {
-          return "#4ade80"; // green 400
-        }
-        if (priorityRatio >= 20) {
-          return "#22c55e"; // green 500
-        }
-        if (priorityRatio >= 15) {
-          return "#16a34a"; // green 600
-        }
-        if (priorityRatio >= 10) {
-          return "#15803d"; // green 700
-        }
-        return "#166534"; // green 800
+      if (scheduledTotalTime === 0) {
+        return "#64748b"; // slate
       }
 
-      const prr = Math.round((priorityRatio * d.parent?.data.priorityRatio) / 100);
-      console.log("prr:", prr);
+      if (executedTotalTime === 0) {
+        return "#ef4444"; // r
+      }
 
-      if (prr >= 20) {
-        return "#bbf7d0"; // green 200
-      }
-      if (prr >= 15) {
-        return "#86efac"; // green 300
-      }
-      if (prr >= 10) {
-        return "#4ade80"; // green 400
-      }
-      if (prr >= 8) {
-        return "#22c55e"; // green 500
-      }
-      if (prr >= 6) {
-        return "#16a34a"; // green 600
-      }
-      if (prr >= 4) {
-        return "#15803d"; // green 700
-      }
-      if (prr >= 2) {
-        return "#166534"; // green 800
-      }
-      return "#14532d"; // green 900
+      const accomplishedRatio = executedTotalTime / scheduledTotalTime;
+      console.log("accomplishedRatio:", d.data.name, accomplishedRatio);
+
+      if (accomplishedRatio >= 0.75) return "#22c55e"; // g
+      if (accomplishedRatio >= 0.5) return "#3b82f6"; // b
+      if (accomplishedRatio >= 0.25) return "#eab308"; // y
+      return "#ef4444"; // r
     })
     .attr("r", (d) => {
       // 노드 원의 지름 결정
@@ -274,122 +250,43 @@ function drawTreeIntoSvg(
           return "0.32em";
         }
         if (d.depth === 1) {
-          return "-0.32em";
+          return "2em";
         }
 
         return "0.32em";
       }) // 이건 y축 보정 (0.32에서 키우면 내려감)
       // 노드 비중(%)의 위치 결정
-      .attr("x", (d) => (d.children ? -20 : 20)) // 6에서 키우면 올라감
+      .attr("x", (d) => (d.children ? 50 : 30)) // FIXME: 중앙 정렬은 못 시키나? 엄청 중요한 건 아니긴 함
       .attr("text-anchor", (d) => (d.children ? "end" : "start"))
       .attr("paint-order", "stroke")
-      .attr("stroke", (d) => {
-        // % 텍스트의 stroke
-        const { priorityRatio } = d.data;
-
-        if (d.depth === 0) {
-          // ROOT
-          return "#fff";
-        }
-
-        if (d.depth === 1) {
-          if (priorityRatio >= 25) {
-            return "#fff";
-          }
-          if (priorityRatio >= 20) {
-            return "#eee";
-          }
-          if (priorityRatio >= 15) {
-            return "#ddd";
-          }
-          if (priorityRatio >= 10) {
-            return "#ccc";
-          }
-          return "#bbb";
-        }
-        const combinedRatio = Math.round((priorityRatio * d.parent?.data.priorityRatio) / 100);
-
-        if (combinedRatio >= 20) {
-          return "fff";
-        }
-        if (combinedRatio >= 15) {
-          return "#eee";
-        }
-        if (combinedRatio >= 10) {
-          return "#ddd";
-        }
-        if (combinedRatio >= 8) {
-          return "#ccc";
-        }
-        if (combinedRatio >= 6) {
-          return "#bbb";
-        }
-        if (combinedRatio >= 4) {
-          return "#aaa";
-        }
-        if (combinedRatio >= 2) {
-          return "#999";
-        }
-        return "#888";
-      })
+      // FIXME: stroke, fill은 동일함... (근데 걍 하나 지우는 게 날듯 색상 통일할 거면)
+      .attr("stroke", getColorForStatusText)
       .attr("stroke-width", 1)
-      .attr("fill", (d) => {
-        const { name, priorityRatio } = d.data;
-        console.log(name, d.depth);
-
-        if (d.depth === 0) {
-          // ROOT
-          return "#fff";
-        }
-
-        if (d.depth === 1) {
-          if (priorityRatio >= 25) {
-            return "fff";
-          }
-          if (priorityRatio >= 20) {
-            return "#eee";
-          }
-          if (priorityRatio >= 15) {
-            return "#ddd";
-          }
-          if (priorityRatio >= 10) {
-            return "#ccc";
-          }
-          return "#bbb";
-        }
-        const combinedRatio = Math.round((priorityRatio * d.parent?.data.priorityRatio) / 100);
-        console.log("prr:", combinedRatio);
-
-        if (combinedRatio >= 20) {
-          return "fff";
-        }
-        if (combinedRatio >= 15) {
-          return "#eee";
-        }
-        if (combinedRatio >= 10) {
-          return "#ddd";
-        }
-        if (combinedRatio >= 8) {
-          return "#ccc";
-        }
-        if (combinedRatio >= 6) {
-          return "#bbb";
-        }
-        if (combinedRatio >= 4) {
-          return "#aaa";
-        }
-        if (combinedRatio >= 2) {
-          return "#999";
-        }
-        return "#888";
-      })
+      .attr("fill", getColorForStatusText)
       .text((d, i) => {
-        // 세부 목표 별 비중을 퍼센트로 표시
-        // 루트 목표는 퍼센트 생략
         if (!d.parent) {
           return "";
         }
-        return `[${d.data.priorityRatio}%]`;
+
+        const { priorityRatio, executedTotalTime, scheduledTotalTime } = d.data;
+
+        console.log(d.data);
+
+        if (scheduledTotalTime === 0) {
+          return "-";
+        }
+
+        const accomplishedRatio = Math.round((executedTotalTime / scheduledTotalTime) * 100);
+
+        if (executedTotalTime >= scheduledTotalTime) {
+          return "완료됨";
+        }
+
+        if (executedTotalTime === 0) {
+          return `[시작 필요, ${Math.round((scheduledTotalTime - executedTotalTime) * 100) / 100}h]`;
+        }
+
+        return `[잔여: ${100 - accomplishedRatio}%, ${Math.round((scheduledTotalTime - executedTotalTime) * 100) / 100}h]`;
       });
 
     // 노드 제목의 위치 결정
@@ -397,10 +294,10 @@ function drawTreeIntoSvg(
       .append("text")
       .attr("dy", (d) => {
         if (!d.parent) {
-          return "0.32em";
+          return "-3em";
         }
         if (d.depth === 1) {
-          return "-0.32em";
+          return "-2em";
         }
 
         return "0.32em";
@@ -409,12 +306,12 @@ function drawTreeIntoSvg(
         if (!d.parent) {
           // 루트일 때는 퍼센트 미표기하므로 공간이 남음...이었지만,
           // 노드 원이 커져서 결국 60이긴 하네
-          return -45;
+          return 80;
         }
         if (d.depth === 1) {
-          return -65;
+          return 40;
         }
-        return 70;
+        return 190;
       }) // 6에서 키우면 올라감
       .attr("text-anchor", (d) => (d.children ? "end" : "start"))
       // text-anchor로 Node의 전/후 지정 가능
@@ -430,27 +327,27 @@ function drawTreeIntoSvg(
   return svg.node();
 }
 
-// data는 단순하게 item = { name, ...props, children: item[] } 으로 무한 재귀
-const chart = drawTreeIntoSvg(DUMMY, {
-  label: (d) => d.name,
-  title: (d, n) =>
-    `${n
-      .ancestors()
-      .reverse()
-      .map((d) => d.data.name)
-      .join(" > ")}`, // hover text
-
-  // link: (d, n) =>
-  //   `${n
-  //     .ancestors()
-  //     .reverse()
-  //     .map((d) => d.data.name)
-  //     .join("/")}${n.children ? "" : ".as"}`,
-  width: 1200,
-});
-
-export const HieararchyPage = () => {
+export const IterationHieararchyPage = () => {
   const ref = useRef<HTMLDivElement>(null);
+
+  // data는 단순하게 item = { name, ...props, children: item[] } 으로 무한 재귀
+  const chart = drawTreeIntoSvg(DUMMY, {
+    label: (d) => d.name,
+    title: (d, n) =>
+      `${n
+        .ancestors()
+        .reverse()
+        .map((d) => d.data.name)
+        .join(" > ")}`, // hover text
+
+    // link: (d, n) =>
+    //   `${n
+    //     .ancestors()
+    //     .reverse()
+    //     .map((d) => d.data.name)
+    //     .join("/")}${n.children ? "" : ".as"}`,
+    width: 1300,
+  });
 
   useEffect(() => {
     if (!ref.current) {
@@ -461,11 +358,9 @@ export const HieararchyPage = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center h-full gap-4">
-      <Callout>
-        [TODO] 해당 화면에서 프로젝트 별 마일스톤, 이슈 개수의 누적, 현재 이터레이션의 진행률을
-        표시할 예정
-      </Callout>
+    <div className="flex h-full flex-col items-center gap-4">
+      <Callout>목표가 2개 이상이면 여기에서 선택해서 조회할 수 있으면 좋겠다.</Callout>
+      <Callout>면적을 자유 자제로 조절할 수 있으면 좋겠다.</Callout>
       <div ref={ref}></div>
     </div>
   );

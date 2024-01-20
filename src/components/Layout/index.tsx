@@ -1,5 +1,5 @@
-import { Outlet } from "react-router-dom";
-import { CalendarCheckIcon, GoalIcon } from "lucide-react";
+import { Link, Outlet } from "react-router-dom";
+import { GaugeIcon, GoalIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { NavigationTab } from "./nav";
@@ -68,16 +68,14 @@ export const Layout = () => {
       </div>
       <div className="flex h-screen w-screen flex-col overflow-hidden">
         <div className="flex h-16 shrink-0 items-center justify-between gap-2 bg-layer-1 px-4">
-          <div className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2">
             <button>
-              <a href="https://github.com/seongbin9786/my-focus">
-                <div className="rounded-xl bg-zinc-700 px-[6px] py-1">
-                  <CalendarCheckIcon className="h-5 w-5" />
-                </div>
-              </a>
+              <div className="rounded-xl bg-violet-700 px-[6px] py-1">
+                <GaugeIcon className="h-5 w-5" />
+              </div>
             </button>
             <div className="flex gap-1">
-              <h1 className="cursor-pointer select-none text-lg font-bold">my-focus</h1>
+              <h1 className="cursor-pointer select-none text-lg font-bold">focusTrack</h1>
               {/* 오늘 태스크 진행률 - 30% 미만은 빨간색, 66% 미만은 주황색, 이상은 파란색, 90%이상은 초록색 */}
               <span
                 className={cn("align-super text-sm font-semibold italic", getTextCSS(percentage))}
@@ -85,7 +83,7 @@ export const Layout = () => {
                 {percentage}%
               </span>
             </div>
-          </div>
+          </Link>
           <div className="hidden md:block">
             <NavigationTab />
           </div>
@@ -98,20 +96,20 @@ export const Layout = () => {
         {/* 모바일에선 주소 표시줄 때문에 밑에 가려져 있어서 안 보이고, 좁아서 Memo와 copyright만 보임 */}
         <div className="flex h-16 shrink-0 items-center gap-4 bg-layer-1 px-4">
           <h1 className="flex items-center gap-2">
-            <span className="text-lg font-bold">Projects</span>
+            <span className="text-lg font-bold">Goals</span>
             <GoalIcon className="mt-1 h-4 w-4" />
           </h1>
           <span
             className="mt-1 line-clamp-1 h-6 grow border-transparent text-sm text-content-2 hover:border-layer-6"
             title="프론트엔드 취업, my focus 프로젝트, 프로그래머스 데브코스"
           >
-            프론트엔드 취업, my focus 프로젝트, 프로그래머스 데브코스
+            프론트엔드 취업 (7it, 245h)
           </span>
           <span className="shrink-0 text-xs">
             Copyright 2024 @{" "}
-            <a className="text-blue-500 underline" href="https://github.com/seongbin9786">
+            <Link className="text-blue-500 underline" to="https://github.com/seongbin9786">
               Seongbin Kim
-            </a>
+            </Link>
           </span>
         </div>
       </div>

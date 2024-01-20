@@ -5,9 +5,11 @@ import { Link } from "react-router-dom";
 
 import {
   NavigationMenu,
+  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
+  NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 
@@ -15,16 +17,62 @@ import { cn } from "@/lib/utils";
 
 const LINKS = [
   {
-    name: "홈",
-    url: "/",
+    name: "작업",
+    url: "/tasks",
   },
   {
-    name: "목표 관리",
-    url: "/hierarchy",
+    name: "마일스톤",
+    url: "/milestones",
   },
   {
-    name: "이터레이션 관리",
-    url: "/iteration",
+    name: "목표",
+    url: "/goals?active=true",
+    subLinks: [
+      {
+        name: "활성화된 목표",
+        url: "/goals?active=true",
+      },
+      {
+        name: "전체 목표",
+        url: "/goals/",
+      },
+      {
+        name: "신규 목표 생성",
+        url: "/goals/new",
+      },
+      {
+        name: "기존 목표 변경",
+        url: "/goals/modify",
+      },
+    ],
+    // 조회: [활성화됨(진행), 비활성화됨 (예정, 중지, 완료)], 변경: [생성, 수정, 삭제]
+  },
+  {
+    name: "이터레이션",
+    url: "/iterations?active=true",
+    subLinks: [
+      {
+        name: "현재 이터레이션",
+        url: "/iterations?active=true",
+      },
+      {
+        name: "전체 이터레이션",
+        url: "/iterations/",
+      },
+      {
+        name: "이터레이션 생성",
+        url: "/iterations/new",
+      },
+      {
+        name: "이터레이션 변경",
+        url: "/iterations/modify",
+      },
+    ],
+    // 조회: [현재, 전체], 변경: [생성, 수정, 삭제]
+  },
+  {
+    name: "회고",
+    url: "/retrospections",
   },
   {
     name: "설정",
@@ -36,59 +84,34 @@ export const NavigationTab = () => {
   return (
     <NavigationMenu>
       <NavigationMenuList>
-        {/* <NavigationMenuItem>
-          <NavigationMenuTrigger>위키</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-              <ListItem href="/docs" title="Introduction">
-                Re-usable components built using Radix UI and Tailwind CSS.
-              </ListItem>
-              <ListItem href="/docs/installation" title="Installation">
-                How to install dependencies and structure your app.
-              </ListItem>
-              <ListItem href="/docs/primitives/typography" title="Typography">
-                Styles for headings, paragraphs, lists...etc
-              </ListItem>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>회고</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-              <ListItem href="/docs" title="Introduction">
-                Re-usable components built using Radix UI and Tailwind CSS.
-              </ListItem>
-              <ListItem href="/docs/installation" title="Installation">
-                How to install dependencies and structure your app.
-              </ListItem>
-              <ListItem href="/docs/primitives/typography" title="Typography">
-                Styles for headings, paragraphs, lists...etc
-              </ListItem>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>내 프로젝트</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-              {components.map((component) => (
-                <ListItem key={component.title} title={component.title} href={component.href}>
-                  {component.description}
-                </ListItem>
-              ))}
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem> */}
-        {LINKS.map(({ name, url }) => (
-          <NavigationMenuItem key={name}>
-            <Link to={url}>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                {name}
-              </NavigationMenuLink>
-            </Link>
-          </NavigationMenuItem>
-        ))}
+        {LINKS.map(({ name, url, subLinks }) => {
+          if (!subLinks) {
+            return (
+              <NavigationMenuItem key={name}>
+                <Link to={url}>
+                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    {name}
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+            );
+          }
+          return (
+            <NavigationMenuItem key={name}>
+              <NavigationMenuTrigger>
+                <Link to={url}>{name}</Link>
+              </NavigationMenuTrigger>
+              <NavigationMenuContent>
+                {/* FIXME: 패널이 길어지면 우측 화면 밖으로 나가버림. 이거는 <Content> 옵션을 봐야 할 듯 */}
+                <ul className="grid gap-3 p-4 lg:grid-cols-[.4fr_.4fr]">
+                  {subLinks.map(({ name, url }) => (
+                    <ListItem key={name} href={url} title={name} className="w-32"></ListItem>
+                  ))}
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          );
+        })}
       </NavigationMenuList>
     </NavigationMenu>
   );
@@ -109,7 +132,7 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, React.ComponentPropsWit
             {...props}
           >
             <div className="text-sm font-medium leading-none">{title}</div>
-            <p className="text-sm leading-snug line-clamp-2 text-muted-foreground">{children}</p>
+            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">{children}</p>
           </Link>
         </NavigationMenuLink>
       </li>
