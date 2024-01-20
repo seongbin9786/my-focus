@@ -80,7 +80,7 @@ const LINKS = [
   },
 ];
 
-export const NavigationTab = () => {
+export const HorizontalNavigationTab = () => {
   return (
     <NavigationMenu>
       <NavigationMenuList>

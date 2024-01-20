@@ -2,7 +2,7 @@ import { Link, Outlet } from "react-router-dom";
 import { GaugeIcon, GoalIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import { NavigationTab } from "./nav";
+import { HorizontalNavigationTab } from "./HorizontalNavigationTab";
 
 import { cn } from "@/lib/utils";
 
@@ -66,16 +66,16 @@ export const Layout = () => {
           className={cn("h-[2px]", getProgressBgCSS(percentage))}
         ></div>
       </div>
-      <div className="flex flex-col w-screen h-screen overflow-hidden">
-        <div className="flex items-center justify-between h-16 gap-2 px-4 shrink-0 bg-layer-1">
+      <div className="flex h-screen w-screen flex-col overflow-hidden">
+        <div className="flex h-16 shrink-0 items-center justify-between gap-2 bg-layer-1 px-4">
           <Link to="/" className="flex items-center gap-2">
             <button>
               <div className="rounded-xl bg-violet-700 px-[6px] py-1">
-                <GaugeIcon className="w-5 h-5" />
+                <GaugeIcon className="h-5 w-5" />
               </div>
             </button>
             <div className="flex gap-1">
-              <h1 className="text-lg font-bold cursor-pointer select-none">MyRealFocus</h1>
+              <h1 className="cursor-pointer select-none text-lg font-bold">MyRealFocus</h1>
               {/* 오늘 태스크 진행률 - 30% 미만은 빨간색, 66% 미만은 주황색, 이상은 파란색, 90%이상은 초록색 */}
               <span
                 className={cn("align-super text-sm font-semibold italic", getTextCSS(percentage))}
@@ -85,7 +85,7 @@ export const Layout = () => {
             </div>
           </Link>
           <div className="hidden md:block">
-            <NavigationTab />
+            <HorizontalNavigationTab />
           </div>
         </div>
         {/* FIXME: 여기에 overflow-auto를 넣어주면 해당 영역의 높이를 지정하지 않아도 알아서 꽉 채우고 더 안 늘어남. */}
@@ -94,18 +94,18 @@ export const Layout = () => {
           <Outlet />
         </div>
         {/* 모바일에선 주소 표시줄 때문에 밑에 가려져 있어서 안 보이고, 좁아서 Memo와 copyright만 보임 */}
-        <div className="flex items-center h-16 gap-4 px-4 shrink-0 bg-layer-1">
+        <div className="flex h-16 shrink-0 items-center gap-4 bg-layer-1 px-4">
           <h1 className="flex items-center gap-2">
             <span className="text-lg font-bold">Goals</span>
-            <GoalIcon className="w-4 h-4 mt-1" />
+            <GoalIcon className="mt-1 h-4 w-4" />
           </h1>
           <span
-            className="h-6 mt-1 text-sm border-transparent line-clamp-1 grow text-content-2 hover:border-layer-6"
+            className="mt-1 line-clamp-1 h-6 grow border-transparent text-sm text-content-2 hover:border-layer-6"
             title="프론트엔드 취업, my focus 프로젝트, 프로그래머스 데브코스"
           >
             프론트엔드 취업 (7it, 245h)
           </span>
-          <span className="text-xs shrink-0">
+          <span className="shrink-0 text-xs">
             Copyright 2024 @{" "}
             <Link className="text-blue-500 underline" to="https://github.com/seongbin9786">
               Seongbin Kim
