@@ -59,7 +59,7 @@ export const CreateMilestoneForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-4 p-4 space-y-8 rounded-md bg-layer-3"
+        className="flex flex-col gap-4 space-y-8 rounded-md bg-layer-3 p-4"
       >
         <FormField
           control={form.control}
@@ -92,7 +92,9 @@ export const CreateMilestoneForm = () => {
                     <SelectItem value="데브코스 2차팀 FE 프로젝트">
                       데브코스 2차팀 FE 프로젝트
                     </SelectItem>
-                    <SelectItem value="개인 프로젝트 my-focus">개인 프로젝트 my-focus</SelectItem>
+                    <SelectItem value="개인 프로젝트 MyRealFocus">
+                      개인 프로젝트 MyRealFocus
+                    </SelectItem>
                     <SelectItem value="개인 프로젝트 my-wiki">개인 프로젝트 my-wiki</SelectItem>
                   </SelectGroup>
                   <SelectGroup>

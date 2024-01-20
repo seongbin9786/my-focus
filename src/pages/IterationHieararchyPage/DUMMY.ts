@@ -11,7 +11,7 @@ export const DUMMY = {
       executedTotalTime: 20,
       children: [
         {
-          name: "개인 프로젝트 my-focus",
+          name: "개인 프로젝트 MyRealFocus",
           scheduledTotalTime: 10.5,
           priorityRatio: 70,
           executedTotalTime: 15,

@@ -1,4 +1,4 @@
-# my-focus
+# MyRealFocus
 
 - pnpm
 - TypeScript

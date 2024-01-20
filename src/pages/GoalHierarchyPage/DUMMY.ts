@@ -7,7 +7,7 @@ export const DUMMY = {
       priorityRatio: 25,
       children: [
         {
-          name: "개인 프로젝트 my-focus",
+          name: "개인 프로젝트 MyRealFocus",
           priorityRatio: 70,
         },
         {

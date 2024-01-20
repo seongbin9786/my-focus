@@ -58,7 +58,7 @@ export const CreateIterationForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-4 p-4 space-y-8 rounded-md bg-layer-3"
+        className="flex flex-col gap-4 space-y-8 rounded-md bg-layer-3 p-4"
       >
         <FormField
           control={form.control}
@@ -67,7 +67,7 @@ export const CreateIterationForm = () => {
             <FormItem>
               <FormLabel>이름</FormLabel>
               <FormControl>
-                <Input placeholder="방학 1 - my-focus 개발 위주" {...field} />
+                <Input placeholder="방학 1 - MyRealFocus 개발 위주" {...field} />
               </FormControl>
               <FormDescription>이름으로 주제를 표현해주세요!</FormDescription>
               <FormMessage />
@@ -105,7 +105,7 @@ export const CreateIterationForm = () => {
                         !field.value && "text-muted-foreground",
                       )}
                     >
-                      <CalendarIcon className="w-4 h-4 mr-2" />
+                      <CalendarIcon className="mr-2 h-4 w-4" />
                       {format(field.value.from, "LLL dd, y")} -{" "}
                       {format(field.value.to, "LLL dd, y")}
                     </Button>
