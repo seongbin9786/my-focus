@@ -352,7 +352,7 @@ function drawTreeIntoSvg(
   return svg.node();
 }
 
-export const HieararchyView = () => {
+export const IterationHieararchyView = () => {
   const ref = useRef<HTMLDivElement>(null);
 
   // data는 단순하게 item = { name, ...props, children: item[] } 으로 무한 재귀

@@ -20,7 +20,7 @@ export const ErrorPage = () => {
       <div className="max-w-[500px]">
         <Alert>
           <Terminal className="h-4 w-4" />
-          <AlertTitle>MyRealFocus</AlertTitle>
+          <AlertTitle>FocusTree</AlertTitle>
           <AlertDescription className="flex flex-col gap-2">
             죄송합니다. 오류가 발생했습니다
             {/* Router 바깥이어서 <Link> 사용 불가능 */}

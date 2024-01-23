@@ -29,7 +29,7 @@ const LINKS = [
     url: "/goals?active=true",
     subLinks: [
       {
-        name: "활성화된 목표",
+        name: "현재 목표",
         url: "/goals?active=true",
       },
       {
@@ -37,11 +37,11 @@ const LINKS = [
         url: "/goals/",
       },
       {
-        name: "신규 목표 생성",
+        name: "목표 생성",
         url: "/goals/new",
       },
       {
-        name: "기존 목표 변경",
+        name: "목표 변경",
         url: "/goals/modify",
       },
     ],

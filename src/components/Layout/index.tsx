@@ -1,5 +1,5 @@
 import { Link, Outlet } from "react-router-dom";
-import { GaugeIcon, GoalIcon } from "lucide-react";
+import { GitMergeIcon, GoalIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { HorizontalNavigationTab } from "./HorizontalNavigationTab";
@@ -41,11 +41,11 @@ export const Layout = () => {
       setPercentage((prev) => {
         const extra = Math.floor(Math.random() * 10);
         if (prev + extra > 100) {
-          window.document.title = "MyRealFocus 0%";
+          window.document.title = "FocusTree 0%";
           return 0;
         }
 
-        window.document.title = `MyRealFocus ${prev + extra}%`;
+        window.document.title = `FocusTree ${prev + extra}%`;
         return prev + extra;
       });
     }, 1000);
@@ -70,12 +70,13 @@ export const Layout = () => {
         <div className="flex h-16 shrink-0 items-center justify-between gap-2 bg-layer-1 px-4">
           <Link to="/" className="flex items-center gap-2">
             <button>
-              <div className="rounded-xl bg-violet-700 px-[6px] py-1">
-                <GaugeIcon className="h-5 w-5" />
+              <div className="-ml-1 rounded-xl bg-violet-600 p-[6px] px-[6px]">
+                {/* <GaugeIcon className="h-5 w-5" /> */}
+                <GitMergeIcon className="h-5 w-5" />
               </div>
             </button>
             <div className="flex gap-1">
-              <h1 className="cursor-pointer select-none text-lg font-bold">MyRealFocus</h1>
+              <h1 className="cursor-pointer select-none text-lg font-bold">FocusTree</h1>
               {/* 오늘 태스크 진행률 - 30% 미만은 빨간색, 66% 미만은 주황색, 이상은 파란색, 90%이상은 초록색 */}
               <span
                 className={cn("align-super text-sm font-semibold italic", getTextCSS(percentage))}
@@ -90,7 +91,7 @@ export const Layout = () => {
         </div>
         {/* FIXME: 여기에 overflow-auto를 넣어주면 해당 영역의 높이를 지정하지 않아도 알아서 꽉 채우고 더 안 늘어남. */}
         {/* 어떻게 되는 건지 원리는 아예 모르겠음. */}
-        <div className="w-full max-w-[1280px] grow self-center overflow-auto">
+        <div className="h-full w-full max-w-[1280px] self-center overflow-hidden">
           <Outlet />
         </div>
         {/* 모바일에선 주소 표시줄 때문에 밑에 가려져 있어서 안 보이고, 좁아서 Memo와 copyright만 보임 */}

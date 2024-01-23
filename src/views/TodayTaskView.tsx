@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 const DUMMY_DATA = [
   {
     milestoneName: "일단 화면 만들기",
-    projectName: "MyRealFocus 사이드 프로젝트",
+    projectName: "FocusTree 사이드 프로젝트",
     estimated: "3h",
     actual: "4h",
     tasks: [
