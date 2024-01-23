@@ -169,92 +169,92 @@ export const CreateIterationForm = () => {
         </div>
         <CollapsibleContent>
           <div>
-            <div className="flex max-h-[400px] flex-col gap-2 overflow-auto p-2">
-              <div className="sticky top-0 -ml-2 rounded-md bg-layer-4 p-2 text-content-5">
-                <div className="flex flex-col gap-2">
-                  <span className="text-md text-content-6">
-                    선택된 프로젝트 수: {checkedList.length}, 합계 중요도:{" "}
-                    {checkedList.reduce((sum, { priorityRatio }) => sum + priorityRatio, 0)}%
-                  </span>
-                  <div>
-                    <Label
-                      htmlFor="selectAll"
-                      className="flex items-center gap-1 text-xs text-content-6"
-                    >
-                      <Checkbox
-                        id="selectAll"
-                        checked={checkedList.length === PROJECTS_WITH_RATIO.length}
-                        onClick={() => {
-                          if (checkedList.length > 0) {
-                            setCheckedList([]);
-                            return;
-                          }
-                          setCheckedList([...PROJECTS_WITH_RATIO]);
-                        }}
-                      />
-                      전체 선택/해제
-                    </Label>
-                  </div>
-                  <div>
-                    <Label
-                      htmlFor="sortByProject"
-                      className="flex items-center gap-1 text-xs text-content-6"
-                    >
-                      <Checkbox checked={true} id="sortByProject" />
-                      프로젝트 순으로 정렬
-                    </Label>
-                  </div>
-                  <div>
-                    <Label
-                      htmlFor="sortByPriorityRatio"
-                      className="flex items-center gap-1 text-xs text-content-6"
-                    >
-                      <Checkbox checked={false} id="sortByPriorityRatio" />
-                      우선 순위 순으로 정렬
-                    </Label>
-                  </div>
-                </div>
-              </div>
-              {PROJECTS_WITH_RATIO.map((project) => {
-                const { name, priorityRatio } = project;
-                const checked =
-                  checkedList.findIndex(({ name: itemName }) => itemName === name) !== -1;
-                const hour =
-                  Math.round((form.getValues().totalTime * priorityRatio * 100) / 100) / 100;
-                const isHourDisplayed = hour > 0 && Math.floor(hour) > 0;
-                const isMinutesDisplayed = hour - Math.floor(hour) > 0;
-                const hoursInteger = Math.floor(hour);
-                const minutesInteger = Math.round((hour - Math.floor(hour)) * 60);
-                return (
+            <div className="flex flex-col gap-2 rounded-md border-[1px] border-layer-6 bg-layer-1">
+              <div className="flex flex-col gap-2 border-b-[1px] border-layer-6 p-2">
+                <span className="text-sm font-semibold text-content-6">
+                  선택된 프로젝트 수: {checkedList.length}, 중요도 합계:{" "}
+                  {checkedList.reduce((sum, { priorityRatio }) => sum + priorityRatio, 0)}%
+                </span>
+                <div>
                   <Label
-                    htmlFor={name}
-                    key={name}
-                    className="flex items-center gap-1 text-content-6"
+                    htmlFor="selectAll"
+                    className="flex items-center gap-1 text-xs text-content-6"
                   >
                     <Checkbox
-                      id={name}
-                      checked={checked}
-                      onClick={(e) => {
-                        const targetName = e.currentTarget.getAttribute("id");
-                        if (!targetName) {
+                      id="selectAll"
+                      checked={checkedList.length === PROJECTS_WITH_RATIO.length}
+                      onClick={() => {
+                        if (checkedList.length > 0) {
+                          setCheckedList([]);
                           return;
                         }
-                        if (checked) {
-                          setCheckedList(checkedList.filter(({ name }) => name !== targetName));
-                          return;
-                        }
-                        setCheckedList([...checkedList, project]);
+                        setCheckedList([...PROJECTS_WITH_RATIO]);
                       }}
                     />
-                    <span className="w-12">{priorityRatio}%</span>
-                    <span className="mr-2 w-20 text-right">
-                      {isHourDisplayed && `${hoursInteger}시간`}{" "}
-                      {isMinutesDisplayed && `${minutesInteger}분`}
-                    </span>
-                    <span className="line-clamp-1">{name}</span>
+                    전체 선택/해제
                   </Label>
-                );
-              })}
+                </div>
+                <div>
+                  <Label
+                    htmlFor="sortByProject"
+                    className="flex items-center gap-1 text-xs text-content-6"
+                  >
+                    <Checkbox checked={true} id="sortByProject" />
+                    프로젝트 순으로 정렬
+                  </Label>
+                </div>
+                <div>
+                  <Label
+                    htmlFor="sortByPriorityRatio"
+                    className="flex items-center gap-1 text-xs text-content-6"
+                  >
+                    <Checkbox checked={false} id="sortByPriorityRatio" />
+                    우선 순위 순으로 정렬
+                  </Label>
+                </div>
+              </div>
+              <div className="flex max-h-[200px] flex-col gap-2 overflow-auto rounded-md p-2">
+                {PROJECTS_WITH_RATIO.map((project) => {
+                  const { name, priorityRatio } = project;
+                  const checked =
+                    checkedList.findIndex(({ name: itemName }) => itemName === name) !== -1;
+                  const hour =
+                    Math.round((form.getValues().totalTime * priorityRatio * 100) / 100) / 100;
+                  const isHourDisplayed = hour > 0 && Math.floor(hour) > 0;
+                  const isMinutesDisplayed = hour - Math.floor(hour) > 0;
+                  const hoursInteger = Math.floor(hour);
+                  const minutesInteger = Math.round((hour - Math.floor(hour)) * 60);
+                  return (
+                    <Label
+                      htmlFor={name}
+                      key={name}
+                      className="flex gap-1 border-b-[1px] border-layer-5 pb-2 text-content-6"
+                    >
+                      <Checkbox
+                        id={name}
+                        checked={checked}
+                        onClick={(e) => {
+                          const targetName = e.currentTarget.getAttribute("id");
+                          if (!targetName) {
+                            return;
+                          }
+                          if (checked) {
+                            setCheckedList(checkedList.filter(({ name }) => name !== targetName));
+                            return;
+                          }
+                          setCheckedList([...checkedList, project]);
+                        }}
+                      />
+                      <span className="w-12">{priorityRatio}%</span>
+                      <span className="mr-2 w-20 text-right">
+                        {isHourDisplayed && `${hoursInteger}시간`}{" "}
+                        {isMinutesDisplayed && `${minutesInteger}분`}
+                      </span>
+                      <span className="line-clamp-1">{name}</span>
+                    </Label>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </CollapsibleContent>
