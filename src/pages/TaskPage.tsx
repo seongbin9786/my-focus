@@ -68,12 +68,11 @@ const Item = ({
   </div>
 );
 
-export const FocusPage = () => {
+export const TaskPage = () => {
   return (
     <>
-      {/* max-h-full 로 해놓으면 header, footer 등 배치 빼고 배치 받은 본인 크기에서 더 커지지 않겠다는 뜻 */}
-      {/* 그렇게 하면 자식의 크기만큼 스스로 자동으로 커질 때에 full보다 더 커지지 않음 */}
-      <div className="grid max-h-full grid-cols-1 gap-4 xl:grid-cols-2 xl:grid-rows-12 xl:p-4">
+      {/* Layout에서 overflow가 제거돼서, 여기서 overflow-auto를 추가. 페이지 단위로 필요한 경우는 여기 뿐일 듯? */}
+      <div className="grid max-h-full grid-cols-1 gap-4 overflow-auto xl:grid-cols-2 xl:grid-rows-12 xl:p-4">
         <div className="relative col-span-1 col-start-1 row-span-3 flex flex-col gap-2 bg-layer-2 p-3 md:p-4 xl:rounded-lg smh:row-span-12">
           <CurrentTaskView doing={true} />
         </div>

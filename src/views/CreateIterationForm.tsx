@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import { CalendarIcon, ChevronsUpDown } from "lucide-react";
 import { useState } from "react";
 
+import { Callout } from "@/components/Callout";
+
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -63,7 +65,7 @@ export const CreateIterationForm = () => {
   const [checkedList, setCheckedList] = useState<{ name: string; priorityRatio: number }[]>([]);
 
   return (
-    <div className="flex flex-col gap-16 rounded-md bg-layer-3 p-4">
+    <div className="flex flex-col gap-16 rounded-md bg-layer-3 p-4 text-content-5">
       <Collapsible>
         <div className="flex justify-between">
           <h3 className="text-lg font-semibold text-content-5">STEP 1. 이터레이션 설정</h3>
@@ -81,59 +83,62 @@ export const CreateIterationForm = () => {
               onSubmit={form.handleSubmit(onSubmit)}
               className="flex flex-col gap-4 rounded-md bg-layer-3"
             >
-              <FormField
-                control={form.control}
-                name="totalTime"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>총 시간 예산</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormDescription>해당 이터레이션의 가용 시간을 입력해주세요!</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="date"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>기간</FormLabel>
-                    <FormControl>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <Button
-                            id="date"
-                            variant="outline"
-                            className={cn(
-                              "flex w-[300px] justify-start text-left font-normal",
-                              !field.value && "text-muted-foreground",
-                            )}
-                          >
-                            <CalendarIcon className="mr-2 h-4 w-4" />
-                            {format(field.value.from, "LLL dd, y")} -{" "}
-                            {format(field.value.to, "LLL dd, y")}
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            initialFocus
-                            mode="range"
-                            defaultMonth={field.value.from}
-                            selected={field.value}
-                            onSelect={field.onChange}
-                            numberOfMonths={2}
-                          />
-                        </PopoverContent>
-                      </Popover>
-                    </FormControl>
-                    <FormDescription>기간을 선택해주세요!</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <Callout>설정한 시간을 초과할 수 없으니 잘 설정해주세요!</Callout>
+              <div className="flex gap-2">
+                <FormField
+                  control={form.control}
+                  name="totalTime"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>총 시간 예산</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormDescription>가용 시간을 입력해주세요!</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="date"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>기간</FormLabel>
+                      <FormControl>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button
+                              id="date"
+                              variant="outline"
+                              className={cn(
+                                "flex w-[300px] justify-start text-left font-normal",
+                                !field.value && "text-muted-foreground",
+                              )}
+                            >
+                              <CalendarIcon className="mr-2 h-4 w-4" />
+                              {format(field.value.from, "LLL dd, y")} -{" "}
+                              {format(field.value.to, "LLL dd, y")}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                              initialFocus
+                              mode="range"
+                              defaultMonth={field.value.from}
+                              selected={field.value}
+                              onSelect={field.onChange}
+                              numberOfMonths={2}
+                            />
+                          </PopoverContent>
+                        </Popover>
+                      </FormControl>
+                      <FormDescription>기간을 선택해주세요!</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
               <FormField
                 control={form.control}
                 name="name"
@@ -151,7 +156,6 @@ export const CreateIterationForm = () => {
                   </FormItem>
                 )}
               />
-              <Button type="submit">이터레이션 생성</Button>
             </form>
           </Form>
         </CollapsibleContent>
@@ -168,7 +172,8 @@ export const CreateIterationForm = () => {
           </CollapsibleTrigger>
         </div>
         <CollapsibleContent>
-          <div>
+          <div className="mt-2 flex flex-col gap-2">
+            <Callout>해제된 프로젝트는 </Callout>
             <div className="flex flex-col gap-2 rounded-md border-[1px] border-layer-6 bg-layer-1">
               <div className="flex flex-col gap-2 border-b-[1px] border-layer-6 p-2">
                 <span className="text-sm font-semibold text-content-6">
@@ -225,33 +230,32 @@ export const CreateIterationForm = () => {
                   const hoursInteger = Math.floor(hour);
                   const minutesInteger = Math.round((hour - Math.floor(hour)) * 60);
                   return (
-                    <Label
-                      htmlFor={name}
-                      key={name}
-                      className="flex gap-1 border-b-[1px] border-layer-5 pb-2 text-content-6"
-                    >
-                      <Checkbox
-                        id={name}
-                        checked={checked}
-                        onClick={(e) => {
-                          const targetName = e.currentTarget.getAttribute("id");
-                          if (!targetName) {
-                            return;
-                          }
-                          if (checked) {
-                            setCheckedList(checkedList.filter(({ name }) => name !== targetName));
-                            return;
-                          }
-                          setCheckedList([...checkedList, project]);
-                        }}
-                      />
-                      <span className="w-12">{priorityRatio}%</span>
-                      <span className="mr-2 w-20 text-right">
-                        {isHourDisplayed && `${hoursInteger}시간`}{" "}
-                        {isMinutesDisplayed && `${minutesInteger}분`}
-                      </span>
-                      <span className="line-clamp-1">{name}</span>
-                    </Label>
+                    <div className="flex items-center justify-between border-b-[1px] border-layer-5 pb-1 text-content-6">
+                      <Label htmlFor={name} key={name} className="flex gap-1">
+                        <Checkbox
+                          id={name}
+                          checked={checked}
+                          onClick={(e) => {
+                            const targetName = e.currentTarget.getAttribute("id");
+                            if (!targetName) {
+                              return;
+                            }
+                            if (checked) {
+                              setCheckedList(checkedList.filter(({ name }) => name !== targetName));
+                              return;
+                            }
+                            setCheckedList([...checkedList, project]);
+                          }}
+                        />
+                        <span className="w-12">{priorityRatio}%</span>
+                        <span className="mr-2 w-20 text-right">
+                          {isHourDisplayed && `${hoursInteger}시간`}{" "}
+                          {isMinutesDisplayed && `${minutesInteger}분`}
+                        </span>
+                        <span className="line-clamp-1">{name}</span>
+                      </Label>
+                      <div className="text-sm text-content-5">3시간</div>
+                    </div>
                   );
                 })}
               </div>
@@ -289,6 +293,7 @@ export const CreateIterationForm = () => {
           <CreateIssueForm />
         </CollapsibleContent>
       </Collapsible>
+      <Button type="submit">이터레이션 생성</Button>
     </div>
   );
 };

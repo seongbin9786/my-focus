@@ -2,6 +2,8 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
+import { Callout } from "@/components/Callout";
+
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -130,6 +132,7 @@ export const CreateIssueForm = () => {
             </FormItem>
           )}
         />
+        <div className="ml-1 text-sm text-green-500">마일스톤 시간 예산: 10, 잔여 시간 예산: 5</div>
         <FormField
           control={form.control}
           name="name"
@@ -144,20 +147,39 @@ export const CreateIssueForm = () => {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="totalTime"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>시간 예산</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormDescription>해당 이슈의 가용 시간을 입력해주세요!</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <Callout>시간 예산 혹은 중요도 비율로 입력할 수 있어요</Callout>
+        <div className="flex gap-2">
+          <FormField
+            control={form.control}
+            name="totalTime"
+            // FIXME: number가 아닌 string으로 입력 값이 들어오게 됨
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>시간 예산</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormDescription>시간 예산은 중요도에도 반영돼요</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="priorityRatio"
+            // FIXME: number가 아닌 string으로 입력 값이 들어오게 됨
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>중요도</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormDescription>중요도는 시간 예산에도 반영돼요</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         <Button type="submit" variant="violet">
           이슈 생성
         </Button>
