@@ -32,6 +32,7 @@ const formSchema = z.object({
   projectName: z.string(),
   milestoneName: z.string(),
   totalTime: z.number(),
+  priorityRatio: z.number(),
   date: z
     .object({
       from: z.date(),
