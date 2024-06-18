@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import {
   NavigationMenu,
@@ -81,6 +81,8 @@ const LINKS = [
 ];
 
 export const HorizontalNavigationTab = () => {
+  const navigate = useNavigate();
+
   return (
     <NavigationMenu>
       <NavigationMenuList>
@@ -88,11 +90,12 @@ export const HorizontalNavigationTab = () => {
           if (!subLinks) {
             return (
               <NavigationMenuItem key={name}>
-                <Link to={url}>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    {name}
-                  </NavigationMenuLink>
-                </Link>
+                <NavigationMenuLink
+                  onClick={() => navigate(url)} // FIXING: Nested Link로 만들면 굳이 navigate()를 안 써도 되지만 warning이 표시되어서 onClick으로 대체함.
+                  className={navigationMenuTriggerStyle()}
+                >
+                  {name}
+                </NavigationMenuLink>
               </NavigationMenuItem>
             );
           }
