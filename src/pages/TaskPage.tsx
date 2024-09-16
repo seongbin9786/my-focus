@@ -102,7 +102,14 @@ export const TaskPage = () => {
             <Item selected firstSelected />
             <Item selected />
             <Item />
-            <div className="sticky top-0 bg-zinc-800 px-8 py-2 text-content-5">어제 (1/15, 화)</div>
+            {/* 아래로 갈수록 높은 z-index를 주어야 하나? 어렵네.. */}
+            <div className="sticky top-0 z-[2] bg-zinc-800 px-8 py-2 text-content-5">
+              어제 (1/15, 화)
+            </div>
+            <Item />
+            <Item selected firstSelected />
+            <Item selected />
+            <Item />
             <Item />
             <Item selected firstSelected />
             <Item selected />
